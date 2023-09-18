@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mapas": {
+    "taller1": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mapas",
+            "outputPath": "dist/taller1",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -25,9 +25,13 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeflex/primeflex.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["leaflet"]
           },
           "configurations": {
             "production": {
@@ -60,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "mapas:build:production"
+              "browserTarget": "taller1:build:production"
             },
             "development": {
-              "browserTarget": "mapas:build:development"
+              "browserTarget": "taller1:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mapas:build"
+            "browserTarget": "taller1:build"
           }
         },
         "test": {
@@ -94,5 +98,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "f927ce5a-b1c0-4c12-9bd6-a643eab3a1b5"
   }
 }
