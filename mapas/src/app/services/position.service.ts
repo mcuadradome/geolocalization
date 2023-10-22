@@ -13,7 +13,7 @@ export class PositionService {
 
 
     public getPosition(lat: number, lon: number): Observable<any> {
-      const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=6&addressdetails=1`;
+      const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=12&addressdetails=2`;
       return this.http.get<any>(apiUrl);
     }
 

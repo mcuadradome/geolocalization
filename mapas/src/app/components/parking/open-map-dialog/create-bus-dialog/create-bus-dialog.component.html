@@ -1,0 +1,33 @@
+<form (submit)="onSave()">
+  <div class="field">
+    <div class="flex flex-column gap-2">
+      <label htmlFor="username">Codigo</label>
+      <input pInputText id="code" aria-describedby="code-help" [(ngModel)]="bus.code" />
+      <small id="code-help">Ingrese el codigo del bus</small>
+    </div>
+  </div>
+  <div class="field">
+    <div class="flex flex-column gap-2">
+      <label htmlFor="passengers">Pasajeros</label>
+      <input pInputText type="number" id="passengers" aria-describedby="passengers-help" [(ngModel)]="bus.passengers" />
+      <small id="passengers-help">Ingrese la cantidad de pasajeros</small>
+    </div>
+  </div>
+  <div class="field col">
+    <span class="p-float-label">
+      <p-dropdown
+        [options]="drivers"
+        [(ngModel)]="bus.conductorFk"
+        placeholder="Conductor"
+        optionLabel="name"
+        inputId="conductor"
+        formControlName="conductor"
+        [required]="true">
+      </p-dropdown>
+      <label for="bus">Seleccione Conductor</label>
+    </span>
+  </div>
+<div class="field">
+  <p-button class="mx-2" icon="pi pi-plus" label="Agregar Bus" severity="primary"></p-button>
+</div>
+</form>

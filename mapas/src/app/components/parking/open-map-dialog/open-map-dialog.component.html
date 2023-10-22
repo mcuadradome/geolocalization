@@ -1,0 +1,127 @@
+<p-messages key="dialog-map"></p-messages>
+<p-panel header="Agregar datos parqueo" [toggleable]="true">
+  <form [formGroup]="ownerForm" class="mt-2">
+    <div class="formgrid grid">
+      <div class="field col-12 mt-2 mb-3">
+        <p-button class="mx-2" icon="pi pi-plus" label="Agregar conductor" severity="secondary" (click)="opneDialogDriver()"></p-button>
+        <p-button class="mx-2" icon="pi pi-plus" label="Agregar Bus" severity="secondary" (click)="openDialogBus()"></p-button>
+      </div>
+
+      <div class="field col mt-2">
+        <span class="p-float-label">
+          <input
+            pInputText
+            id="origen"
+            [(ngModel)]="carPark.origen"
+            formControlName="origen"
+            required
+          />
+          <label htmlFor="origen">Origen</label>
+        </span>
+      </div>
+      <div class="field col mt-2">
+        <span class="p-float-label">
+          <input
+            pInputText
+            id="destino"
+            [(ngModel)]="carPark.destino"
+            formControlName="destino"
+            required
+          />
+          <label htmlFor="destino">Destino</label>
+        </span>
+      </div>
+      <div class="field col mt-2">
+        <span class="p-float-label">
+          <!-- <input pInputText id="departureTime" [(ngModel)]="carPark.departureTime" formControlName="departureTime" /> -->
+          <p-inputMask
+            id="departureTime"
+            mask="99:99"
+            [(ngModel)]="carPark.departureTime"
+            formControlName="departureTime"
+            placeholder="00:00"
+          ></p-inputMask>
+          <label htmlFor="departureTime">Hora Salida</label>
+        </span>
+      </div>
+      <div class="field col mt-2">
+        <span class="p-float-label">
+          <!-- <input pInputText id="arrivalTime" [(ngModel)]="carPark.arrivalTime" formControlName="arrivalTime" /> -->
+          <p-inputMask
+            id="arrivalTime"
+            mask="99:99"
+            [(ngModel)]="carPark.departureTime"
+            formControlName="arrivalTime"
+            placeholder="00:00"
+          ></p-inputMask>
+          <label htmlFor="arrivalTime">Hora llegada</label>
+        </span>
+      </div>
+      <div class="field col-4 mt-3">
+        <span class="p-float-label">
+          <input
+            pInputText
+            id="timeOfStay"
+            [(ngModel)]="carPark.timeOfStay"
+            formControlName="timeOfStay"
+          />
+          <label htmlFor="timeOfStay">Tiempo estadia</label>
+        </span>
+      </div>
+      <div class="field col-4 mt-3">
+        <span class="p-float-label">
+          <p-dropdown
+            [options]="buses"
+            [(ngModel)]="carPark.busFk"
+            placeholder="Bus"
+            optionLabel="code"
+            inputId="bus"
+            formControlName="bus"
+            [required]="true"
+          >
+          </p-dropdown>
+          <label for="bus">Seleccione Bus</label>
+        </span>
+
+      </div>
+      <div class="field col-4 mt-3">
+        <!-- <span class="p-float-label">
+          <input
+            pInputText
+            id="conductor"
+            [(ngModel)]="carPark.busFk == null ? '' : carPark.busFk.conductorFk!.name "
+            formControlName="conductor"
+          />
+          <label htmlFor="conductor">Conductor</label>
+        </span> -->
+        <span class="p-float-label">
+          <p-dropdown
+            [options]="drivers"
+            [(ngModel)]="carPark.busFk == null ? '' : carPark.busFk.conductorFk"
+            placeholder="Conductor"
+            optionLabel="name"
+            inputId="conductor"
+            formControlName="conductor"
+            [required]="true"
+          >
+          </p-dropdown>
+          <label for="conductor">Conductor</label>
+        </span>
+      </div>
+      <div class="field col-12 mt-2">
+        <button
+          pButton
+          pRipple
+          label="Guardar"
+          class="p-button-success"
+          [disabled]="ownerForm.invalid"
+          (click)="onCreate()"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-panel>
+
+<div class="col-12 m-2 p-2">
+  <div id="mapa"></div>
+</div>

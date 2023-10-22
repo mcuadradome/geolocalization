@@ -1,0 +1,13 @@
+
+<form (submit)="onSave()">
+  <div class="field">
+    <div class="flex flex-column gap-2">
+      <label htmlFor="username">Nombre conductor</label>
+      <input pInputText id="username" aria-describedby="username-help" [(ngModel)]="name" />
+      <small id="username-help">Ingrese el nombre del conductor</small>
+  </div>
+  </div>
+<div class="field">
+  <p-button class="mx-2" icon="pi pi-plus" label="Agregar conductor" severity="primary"></p-button>
+</div>
+</form>

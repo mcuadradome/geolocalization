@@ -19,6 +19,10 @@ export class NavbarComponent implements OnInit {
         label: 'Triangulacion',
         routerLink: '/triangulation'
       },
+      {
+        label: 'Parking',
+        routerLink: '/parking'
+      },
     ];
   }
 }

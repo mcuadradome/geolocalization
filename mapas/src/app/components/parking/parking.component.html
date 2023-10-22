@@ -1,0 +1,33 @@
+<app-navbar></app-navbar>
+<p-card class="m-2" styleClass="p-card-shadow">
+
+  <p-table [value]="municipalities" styleClass="p-datatable-gridlines" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true"
+  [rows]="15"  currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords}"  [scrollable]="true" scrollHeight="400px"
+
+  [showCurrentPageReport]="true">
+    <ng-template pTemplate="header" scr>
+        <tr>
+            <th>Nombre</th>
+            <th>Capacidad</th>
+            <th>Accion</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.capacity }}</td>
+            <td>
+              <p-button icon="pi pi-external-link" (click)="open(item)"></p-button>
+
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+
+
+
+
+
+</p-card>
