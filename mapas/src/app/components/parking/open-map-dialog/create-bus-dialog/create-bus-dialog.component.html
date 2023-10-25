@@ -1,15 +1,16 @@
-<form (submit)="onSave()">
+<form [formGroup]="ownerForm" (submit)="onSave()">
   <div class="field">
     <div class="flex flex-column gap-2">
       <label htmlFor="username">Codigo</label>
-      <input pInputText id="code" aria-describedby="code-help" [(ngModel)]="bus.code" />
+      <input pInputText id="code" formControlName="code" aria-describedby="code-help" [(ngModel)]="bus.code" />
       <small id="code-help">Ingrese el codigo del bus</small>
     </div>
   </div>
   <div class="field">
     <div class="flex flex-column gap-2">
       <label htmlFor="passengers">Pasajeros</label>
-      <input pInputText type="number" id="passengers" aria-describedby="passengers-help" [(ngModel)]="bus.passengers" />
+      <input pInputText type="number" id="passengers" formControlName="passengers"
+       aria-describedby="passengers-help" [(ngModel)]="bus.passengers" />
       <small id="passengers-help">Ingrese la cantidad de pasajeros</small>
     </div>
   </div>
@@ -28,6 +29,6 @@
     </span>
   </div>
 <div class="field">
-  <p-button class="mx-2" icon="pi pi-plus" label="Agregar Bus" severity="primary"></p-button>
+  <p-button class="mx-2" icon="pi pi-plus" label="Agregar Bus" severity="primary" (click)="onSave()"></p-button>
 </div>
 </form>

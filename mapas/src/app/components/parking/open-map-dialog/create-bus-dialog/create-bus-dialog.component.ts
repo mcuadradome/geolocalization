@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Bus } from 'src/app/model/bus.interface';
 import { Conductor } from 'src/app/model/conductor.interface';
@@ -13,6 +14,12 @@ export class CreateBusDialogComponent implements OnInit  {
 
   drivers: Conductor[] = [];
   bus: Bus;
+
+  ownerForm = new UntypedFormGroup({
+    code : new UntypedFormControl('', Validators.required),
+    passengers : new UntypedFormControl('', Validators.required),
+    conductor : new UntypedFormControl('', Validators.required)
+  });
 
   constructor(public config: DynamicDialogConfig, public ref: DynamicDialogRef, private parkingService: ParkingService){
 
@@ -41,7 +48,9 @@ export class CreateBusDialogComponent implements OnInit  {
 
     this.parkingService.saveBus(this.bus).subscribe({
       next: (value) => {
-
+        if(value.httpStatus == 'CREATED'){
+          this.ref.close();
+        }
       },
       error: (err) => {
           console.error('Error ' , err.message);
