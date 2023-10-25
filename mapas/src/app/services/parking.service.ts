@@ -6,6 +6,7 @@ import { Municipality } from '../model/municipality.interface';
 import { Conductor } from '../model/conductor.interface';
 import { Bus } from '../model/bus.interface';
 import { CarPark } from '../model/carpark.interface';
+import { ResponseVO } from '../model/response/response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,24 +29,24 @@ export class ParkingService {
     return this.http.get<Conductor[]>(this.constants.BASE_URI + '/conductor/getAll');
   }
 
-  public saveBus(bus: Bus): Observable<Response> {
-    return this.http.post<Response>(this.constants.BASE_URI + '/bus', bus, {headers: this.cabeceras });
+  public saveBus(bus: Bus): Observable<ResponseVO> {
+    return this.http.post<ResponseVO>(this.constants.BASE_URI + '/bus', bus, {headers: this.cabeceras });
   }
 
-  public saveConductor(conductor: Conductor): Observable<Response> {
-    return this.http.post<Response>(this.constants.BASE_URI + '/conductor', conductor, {headers: this.cabeceras });
+  public saveConductor(conductor: Conductor): Observable<ResponseVO> {
+    return this.http.post<ResponseVO>(this.constants.BASE_URI + '/conductor', conductor, {headers: this.cabeceras });
   }
 
-  public create(carPark: CarPark): Observable<Response> {
-    return this.http.post<Response>(this.constants.BASE_URI + '/carpark/create', carPark, {headers: this.cabeceras });
+  public create(carPark: CarPark): Observable<ResponseVO> {
+    return this.http.post<ResponseVO>(this.constants.BASE_URI + '/carpark/create', carPark, {headers: this.cabeceras });
   }
 
-  public getAllCarkPark(): Observable<CarPark[]> {
-    return this.http.get<CarPark[]>(this.constants.BASE_URI + '/carpark/getAll');
+  public getAllByMunicipality(municipalityId: number): Observable<CarPark[]> {
+    return this.http.get<CarPark[]>(this.constants.BASE_URI +  `/carpark/getAllByMunicipality/${municipalityId}`);
   }
 
-  public getCapacity(municipalityId: number): Observable<Response> {
-    return this.http.get<Response>(this.constants.BASE_URI + `/countByMunicipalityId/${municipalityId}`);
+  public getCapacity(municipalityId: number): Observable<ResponseVO> {
+    return this.http.get<ResponseVO>(this.constants.BASE_URI + `/countByMunicipalityId/${municipalityId}`);
   }
 
 

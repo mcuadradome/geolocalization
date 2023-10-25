@@ -33,28 +33,29 @@
       </div>
       <div class="field col mt-2">
         <span class="p-float-label">
+          <!-- <input pInputText id="arrivalTime" [(ngModel)]="carPark.arrivalTime" formControlName="arrivalTime" /> -->
+          <p-inputMask
+            id="arrivalTime"
+            mask="99:99"
+            [(ngModel)]="carPark.arrivalTime"
+            formControlName="arrivalTime"
+            placeholder="00:00"
+          ></p-inputMask>
+          <label htmlFor="arrivalTime">Hora llegada</label>
+        </span>
+      </div>
+      <div class="field col mt-2">
+        <span class="p-float-label">
           <!-- <input pInputText id="departureTime" [(ngModel)]="carPark.departureTime" formControlName="departureTime" /> -->
           <p-inputMask
             id="departureTime"
             mask="99:99"
             [(ngModel)]="carPark.departureTime"
+            (ngModelChange)="updateDepartureTime()"
             formControlName="departureTime"
             placeholder="00:00"
           ></p-inputMask>
           <label htmlFor="departureTime">Hora Salida</label>
-        </span>
-      </div>
-      <div class="field col mt-2">
-        <span class="p-float-label">
-          <!-- <input pInputText id="arrivalTime" [(ngModel)]="carPark.arrivalTime" formControlName="arrivalTime" /> -->
-          <p-inputMask
-            id="arrivalTime"
-            mask="99:99"
-            [(ngModel)]="carPark.departureTime"
-            formControlName="arrivalTime"
-            placeholder="00:00"
-          ></p-inputMask>
-          <label htmlFor="arrivalTime">Hora llegada</label>
         </span>
       </div>
       <div class="field col-4 mt-3">
@@ -121,7 +122,32 @@
     </div>
   </form>
 </p-panel>
+<p-panel [hidden]="availablesCarParks.length == 0" header="Detalles parqueos" [toggleable]="true">
+  <p-table [value]="availablesCarParks" styleClass="p-datatable-gridlines" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true"
+  [rows]="15"  currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords}"  [scrollable]="true" scrollHeight="400px"
 
+  [showCurrentPageReport]="true">
+    <ng-template pTemplate="header" scr>
+        <tr>
+            <th>Origen</th>
+            <th>Destino</th>
+            <th>Hora de llegada</th>
+            <th>Bus</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+        <tr>
+            <td>{{ item.origen }}</td>
+            <td>{{ item.destino }}</td>
+            <td>{{ item.arrivalTime | date }}</td>
+            <td>{{ item.busFk.code }}</td>
+           <!-- <td>
+              <button pButton pRipple icon="pi pi-check" class="p-button-success" (click)="validate(item)"></button>
+            </td>-->
+        </tr>
+    </ng-template>
+</p-table>
+</p-panel>
 <div class="col-12 m-2 p-2">
   <div id="mapa"></div>
 </div>

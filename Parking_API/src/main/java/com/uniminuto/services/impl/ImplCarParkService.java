@@ -39,7 +39,8 @@ public class ImplCarParkService implements ICarParkService {
 				
 				if(oCarPark != null) {
 					responseVO.setHttpStatus(HttpStatus.CREATED);
-					responseVO.setMessage("Operacion realizada correctamente");				
+					responseVO.setMessage("Operacion realizada correctamente");	
+					responseVO.setResult(oCarPark);
 				}else {
 					responseVO.setHttpStatus(HttpStatus.BAD_REQUEST);
 					responseVO.setMessage("Error al guardar");

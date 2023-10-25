@@ -1,15 +1,117 @@
-import { Circle } from "../model/punto.interface";
+import { Circle } from '../model/punto.interface';
 
-export class Utils{
-
-
+export class Utils {
   getRandomWeight(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-
   metrosAKilometros(metros: number): number {
     return metros * 1000;
+  }
+
+  parseActualDateTime(hour: string): string {
+    const fechaHoraActual = new Date();
+
+    // Obtener las partes de la fecha
+    const dia = fechaHoraActual.getDate();
+    const mes = fechaHoraActual.getMonth() + 1; // Recuerda sumar 1 al mes
+    const anio = fechaHoraActual.getFullYear();
+
+    // Obtener las partes de la hora
+    //const horas = fechaHoraActual.getHours();
+    //const minutos = fechaHoraActual.getMinutes();
+    const segundos = fechaHoraActual.getSeconds();
+
+    const segundosFormateados =
+      segundos < 10 ? `0${segundos}` : segundos.toString();
+
+    // Formatear la fecha y la hora como una cadena de texto en el formato deseado
+    return `${dia}/${mes}/${anio} ${hour}:${segundosFormateados}`;
+  }
+
+  parseActualTime(): string {
+    const fechaHoraActual = new Date();
+
+    // Obtener las partes de la hora
+    const horas = fechaHoraActual.getHours();
+    const minutos = fechaHoraActual.getMinutes();
+
+    const horasFormateadas = horas < 10 ? `0${horas}` : horas.toString();
+    const minutosFormateados =
+      minutos < 10 ? `0${minutos}` : minutos.toString();
+
+    console.log(minutos);
+
+    // Formatear la fecha y la hora como una cadena de texto en el formato deseado
+    return `${horasFormateadas}:${minutosFormateados}`;
+  }
+
+  getMinutes(dateStart: string, dateEnd: string): number {
+    const fechaInicio = new Date(this.parseStringToDate(dateStart));
+    const fechaFin = new Date(this.parseStringToDate(dateEnd));
+
+    console.log(fechaInicio, fechaFin);
+
+    // Calcular la diferencia en milisegundos entre las dos fechas
+    const diferenciaEnMilisegundos = fechaFin.getTime() - fechaInicio.getTime();
+
+    if (!isNaN(diferenciaEnMilisegundos)) {
+      // Calcular la diferencia en minutos
+      const diferenciaEnMinutos = diferenciaEnMilisegundos / (1000 * 60);
+      return diferenciaEnMinutos;
+    } else {
+      return 0;
+    }
+  }
+
+  parseStringToDate(date: string): Date {
+    const fechaHoraString = '24/10/2023 20:10:24';
+    const [fechaParte, horaParte] = fechaHoraString.split(' '); // Separar la fecha y la hora
+
+    const [dia, mes, anio] = fechaParte.split('/'); // Separar día, mes y año
+    const [hora, minutos, segundos] = horaParte.split(':'); // Separar hora, minutos y segundos
+
+    // Crear el objeto Date con las partes de la fecha y la hora
+    const fechaHora = new Date(
+      Number(anio),
+      Number(mes) - 1,
+      Number(dia),
+      Number(hora),
+      Number(minutos),
+      Number(segundos)
+    );
+
+    console.log(fechaHora);
+    return fechaHora;
+  }
+
+  formatDate(fechaHoraString: string): string {
+    // Cadena de fecha y hora en el formato "dd/MM/aaaa hh:mm:ss"
+
+    // Dividir la cadena en partes de fecha y hora
+    const [fechaParte, horaParte] = fechaHoraString.split(' ');
+
+    // Dividir la parte de fecha en día, mes y año
+    const [dia, mes, anio] = fechaParte.split('/');
+
+    // Dividir la parte de hora en horas, minutos y segundos
+    const [hora, minutos, segundos] = horaParte.split(':');
+
+    // Crear un nuevo objeto Date con las partes de la fecha y la hora
+    const fechaHora = new Date(
+      Number(anio),
+      Number(mes) - 1,
+      Number(dia),
+      Number(hora),
+      Number(minutos),
+      Number(segundos)
+    );
+
+    // Formatear la fecha en el formato deseado "yyyy-MM-dd'T'HH:mm:ss.SSS"
+    const fechaFormateada = fechaHora.toISOString();
+
+    console.log(fechaFormateada);
+    return fechaFormateada;
   }
 
   // findIntersection(circles: Circle[]): [number, number] | null {
@@ -57,5 +159,4 @@ export class Utils{
 
   //   return [x, y];
   // }
-
 }

@@ -5,8 +5,8 @@ export interface CarPark {
   id?: number;
   origen: string;
   destino: string;
-  departureTime: Date;
-  arrivalTime: Date;
+  departureTime: string;
+  arrivalTime: string;
   timeOfStay: number;
   busFk: Bus | undefined;
   municipalityFk: Municipality;

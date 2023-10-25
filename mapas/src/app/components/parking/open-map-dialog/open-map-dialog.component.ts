@@ -12,6 +12,7 @@ import { CreateDriverDialogComponent } from './create-driver-dialog/create-drive
 import { CreateBusDialogComponent } from './create-bus-dialog/create-bus-dialog.component';
 import { MessageService } from 'primeng/api';
 import { ResponseVO } from 'src/app/model/response/response.interface';
+import { Utils } from 'src/app/utils/utils';
 
 @Component({
   selector: 'app-open-map-dialog',
@@ -24,6 +25,8 @@ export class OpenMapDialogComponent implements OnInit {
   carPark: CarPark;
   buses: Bus[] = [];
   drivers: Conductor[] = [];
+  availablesCarParks: CarPark[]=[];
+  loading = false;
 
   ownerForm = new UntypedFormGroup({
     origen : new UntypedFormControl('', Validators.required),
@@ -38,14 +41,14 @@ export class OpenMapDialogComponent implements OnInit {
 
   constructor(private positionService: PositionService, public config: DynamicDialogConfig,
               private ref: DynamicDialogRef, private parkingService: ParkingService, private dialogService: DialogService,
-              private messageService: MessageService){
+              private messageService: MessageService, private utils: Utils){
 
   this.municipality = this.config.data.municipality;
   console.log(this.municipality);
 
   this.carPark={
-    arrivalTime: new Date,
-    departureTime: new Date,
+    arrivalTime: this.utils.parseActualTime(),
+    departureTime: this.utils.parseActualTime(),
     busFk:{
       code:'',
       carParkList:[],
@@ -97,6 +100,20 @@ export class OpenMapDialogComponent implements OnInit {
       },
     });
 
+    this.parkingService.getAllByMunicipality(this.carPark.municipalityFk.id).subscribe({
+      next: (value) => {
+         this.availablesCarParks = value;
+      },
+    });
+
+  }
+
+  updateDepartureTime(): void{
+    const arrivalTime = this.utils.parseActualDateTime(this.carPark.arrivalTime);
+    const departureTime = this.utils.parseActualDateTime(this.carPark.departureTime);
+
+    const hour = this.utils.getMinutes(arrivalTime, departureTime);
+    this.carPark.timeOfStay = hour;
   }
 
   opneDialogDriver(){
@@ -110,7 +127,8 @@ export class OpenMapDialogComponent implements OnInit {
 
     ref.onClose.subscribe((response: ResponseVO) => {
       if (response) {
-        this.messageService.add({ severity: response.httpStatus != 'OK' ? 'error' : 'info' , summary: 'Mensaje', detail: response.message});
+        this.messageService.add({ severity: response.httpStatus != 'OK' ? 'error' : 'info',
+         summary: 'Mensaje', detail: response.message, key: 'dialog-map'});
       }
     });
   }
@@ -126,7 +144,8 @@ export class OpenMapDialogComponent implements OnInit {
 
     ref.onClose.subscribe((response: ResponseVO) => {
       if (response) {
-        this.messageService.add({ severity: response.httpStatus != 'OK' ? 'error' : 'info' , summary: 'Mensaje', detail: response.message});
+        this.messageService.add({ severity: response.httpStatus != 'OK' ? 'error' : 'info' ,
+         summary: 'Mensaje', detail: response.message, key: 'dialog-map'});
       }
     });
 
@@ -134,11 +153,40 @@ export class OpenMapDialogComponent implements OnInit {
 
   onCreate(): void{
 
-    this.parkingService.create(this.carPark).subscribe({
+    const arrivalTime = this.utils.parseActualDateTime(this.carPark.arrivalTime);
+    const departureTime = this.utils.parseActualDateTime(this.carPark.departureTime);
 
+    this.carPark.arrivalTime= this.utils.formatDate(arrivalTime) ;
+    this.carPark.departureTime = this.utils.formatDate(departureTime);
+
+    this.loading = true;
+    this.parkingService.create(this.carPark).subscribe({
+      next: (value) => {
+        this.loading = false;
+          if(value.httpStatus === 'CREATED'){
+            this.messageService.add({severity:'success', summary:'Mensaje',
+             detail: value.message, key: 'dialog-map'});
+              this.availablesCarParks.push(value.result);
+              console.log(this.availablesCarParks);
+          }else{
+            this.messageService.add({severity:'success', summary:'Mensaje',
+             detail:value.message, key: 'dialog-map'});
+
+          }
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error(err);
+      },
 
 
     });
+
+  }
+
+  validate(carPark: CarPark){
+
+
 
   }
 
